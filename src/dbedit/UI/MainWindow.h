@@ -31,6 +31,8 @@ class MainWindow : public QMainWindow
         std::unique_ptr<Ui::MainWindow> me;
 
         QTabWidget& _pageSwitcher;
+
+        bool _hadSetup[PAGE_MAX];
 };
 
 #endif

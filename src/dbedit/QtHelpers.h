@@ -18,6 +18,7 @@ inline T FindHelper(QWidget const& widget, char const* name)
     return *ptr;
 }
 #define FIND_Q_CHILD(name) name(FindHelper<decltype(name)>(*this, #name))
+#define FIND_Q_CHILD_DELAYED(name) name = &FindHelper<decltype(*name)>(*this, #name);
 
 
 // Q_SETUP

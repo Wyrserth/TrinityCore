@@ -29,11 +29,11 @@ struct DBCLoadEntry
 
 struct DBCLoads
 {
-#define LOAD_DBC(name) { &StaticDBCStore<name ## Entry>::Load, #name ".dbc", DBCfmt_ ## name }
-#define LOAD_DBC_EXT(name) { &StaticDBCStore<name ## Entry>::Load, #name ".dbc", DBCfmt_ ## name, &DatabaseDBCStore<name ## Entry>::Load, DBCfmt_ ## name ## _DBFormat, DBCfmt_ ## name ## _DBIndex }
+#define LOAD_DBC(file, entry, fmt) { &StaticDBCStore<entry>::Load, file, fmt }
+#define LOAD_DBC_EXT(file, entry, fmt, dbfmt, dbindex) { &StaticDBCStore<entry>::Load, file, fmt, &DatabaseDBCStore<entry>::Load, dbfmt, dbindex }
     static constexpr DBCLoadEntry List[] = {
-        LOAD_DBC_EXT(Spell),
-        LOAD_DBC(SkillLineAbility)
+        LOAD_DBC_EXT("Spell.dbc",           SpellEntry,                 SpellEntryfmt,      CustomSpellEntryfmt,    CustomSpellEntryIndex),
+        LOAD_DBC("SkillLineAbility.dbc",    SkillLineAbilityEntry,      SkillLineAbilityfmt),
     };
 #undef LOAD_DBC_EXT
 #undef LOAD_DBC

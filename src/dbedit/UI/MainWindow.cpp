@@ -4,11 +4,13 @@
 #include "DBCStructure.h"
 #include "Globals.h"
 #include "QtHelpers.h"
+#include "TopLevelPage.h"
 
 MainWindow::MainWindow() :
     QMainWindow(nullptr),
     Q_SETUP(),
-    FIND_Q_CHILD(_pageSwitcher)
+    FIND_Q_CHILD(_pageSwitcher),
+    _hadSetup()
 {
 }
 
@@ -21,12 +23,18 @@ void MainWindow::Setup()
     std::advance(it, 2500);
     printf("For example, spell %u is called %s.\n", it->Id, it->SpellName[0]);
 
+    SwitchToPage(0);
     this->showMaximized();
 }
 
 void MainWindow::SwitchToPage(uint8 index)
 {
     ASSERT(index < PAGE_MAX);
+    if (!_hadSetup[index])
+    {
+        static_cast<TopLevelPage*>(_pageSwitcher.widget(index))->Setup();
+        _hadSetup[index] = true;
+    }
     _pageSwitcher.setCurrentIndex(index);
 }
 
