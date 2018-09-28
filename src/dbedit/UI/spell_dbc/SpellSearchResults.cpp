@@ -1,6 +1,8 @@
 #include "SpellSearchResults.h"
+#include "advstd.h"
 #include "Errors.h"
 #include "SpellAccessor.h"
+#include "SpellSearchResult.h"
 #include "Util.h"
 #include <map>
 #include <vector>
@@ -20,8 +22,8 @@ void SpellSearchResults::DoSearch(char* str)
         while (*str && *str == ' ') *(str++) = '\0';
     }
 
-    std::multimap<uint32, std::pair<uint32, char const*>> matches;
-    for (std::pair<uint32, std::string> const& pair : SpellAccessor::AllSpells())
+    std::multimap<uint32, advstd::remove_cvref_t<decltype(SpellAccessor::AllSpells())>::value_type const&> matches;
+    for (auto const& pair : SpellAccessor::AllSpells())
     {
         uint32 count = 0;
         for (char const* needle : needles)
@@ -31,7 +33,7 @@ void SpellSearchResults::DoSearch(char* str)
         if (!count)
             continue;
 
-        matches.emplace(count, decltype(matches)::mapped_type(pair.first, pair.second.c_str()));
+        matches.emplace(count, pair);
     }
 
     if (matches.empty())
@@ -41,7 +43,7 @@ void SpellSearchResults::DoSearch(char* str)
     }
 
     for (auto it = matches.rbegin(), end = matches.rend(); it != end; ++it)
-        this->addItem(new QListWidgetItem(it->second.second));
+        this->addItem(new SpellSearchResult(it->second.first, it->second.second.c_str()));
 }
 
 void SpellSearchResults::DoError(char const* msg)

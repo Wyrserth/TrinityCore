@@ -4,6 +4,7 @@
 #include "TopLevelPage.h"
 
 class QLineEdit;
+class QListWidgetItem;
 class SpellSearchResults;
 
 class SpellDBCPage : public TopLevelPage
@@ -16,6 +17,7 @@ class SpellDBCPage : public TopLevelPage
 
     public Q_SLOTS:
         void SearchEnterPressed();
+        void SearchItemClicked(QListWidgetItem*);
 
     private:
         QLineEdit* _searchBox;
