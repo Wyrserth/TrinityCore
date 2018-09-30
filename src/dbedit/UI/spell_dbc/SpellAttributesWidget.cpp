@@ -1,0 +1,1 @@
+#include "SpellAttributesWidget.h"
