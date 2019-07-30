@@ -23182,6 +23182,9 @@ void Player::ResetSeasonalQuestStatus(uint16 event_id)
     if (m_seasonalquests.empty() || m_seasonalquests[event_id].empty())
         return;
 
+    for (uint32 questId : m_seasonalquests[event_id])
+        RemoveRewardedQuest(questId);
+
     m_seasonalquests.erase(event_id);
     // DB data deleted in caller
     m_SeasonalQuestChanged = false;

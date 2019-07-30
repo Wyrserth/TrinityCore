@@ -10164,8 +10164,6 @@ void Unit::StopMoving()
     if (!IsInWorld() || movespline->Finalized())
         return;
 
-    // Update position now since Stop does not start a new movement that can be updated later
-    UpdateSplinePosition();
     Movement::MoveSplineInit init(this);
     init.Stop();
 }
